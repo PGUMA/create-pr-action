@@ -1,0 +1,28 @@
+name: Release action
+on:
+  workflow_dispatch:
+    inputs:
+      bump-level:
+        type: choice
+        options: [patch, minor, major]
+        required: true
+        description: 'Bump level'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ncipollo/release-action@6c75be85e571768fa31b40abf38de58c1ad5bd1d # v1
+        env:
+          USERNAME: github-actions[bot]
+          EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GITHUB_TOKEN: ${{ github.token }}
+          BUMP_LEVEL:  ${{ github.event.inputs.bump-level }}
+        run: |
+          git config --global user.name "${USERNAME}"
+          git config --global user.email "${EMAIL}"
+          version="$(.github/scripts/bump.sh "${BUMP_LEVEL}")"
+          gh release create "${version}" --title "${version}" --generate-notes
