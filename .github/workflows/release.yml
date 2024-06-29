@@ -21,7 +21,7 @@ jobs:
           EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
           GITHUB_TOKEN: ${{ github.token }}
           BUMP_LEVEL:  ${{ github.event.inputs.bump-level }}
-        run: |
+      - run: |
           git config --global user.name "${USERNAME}"
           git config --global user.email "${EMAIL}"
           version="$(.github/scripts/bump.sh "${BUMP_LEVEL}")"
