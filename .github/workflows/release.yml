@@ -15,7 +15,6 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - uses: ncipollo/release-action@v1
         env:
           USERNAME: github-actions[bot]
           EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
